@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lock & Store</title>
+    <style>
+        /* Reset osnovnih stilova */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header Stilovi */
+        header {
+            background-color: #004080;
+            color: #fff;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .logo h1 {
+            font-size: 24px;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-left: 30px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* Hero Sekcija */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1593642532400-2682810df593?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjA3fDB8MHxzZWFyY2h8Mnx8c2tsaWRhcmVuJTIwc3RvcmFnZXxlbnwwfHx8fDE2ODAxNjMwNjc&ixlib=rb-4.0.3&q=80&w=1080') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background-color: #ffcc00;
+            color: #004080;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Sekcije: Usluge, Jedinice, Cene, FAQ, Kontakt */
+        section {
+            padding: 60px 10%;
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #004080;
+        }
+
+        /* Usluge */
+        .services {
+            background-color: #f9f9f9;
+        }
+
+        .services .service-item {
+            margin-bottom: 30px;
+        }
+
+        .services .service-item h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .services .service-item p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Jedinice */
+        .units {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .unit {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .unit:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .unit h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #004080;
+        }
+
+        .unit p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .unit img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .unit .cta-button {
+            background-color: #004080;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .unit .cta-button:hover {
+            background-color: #003366;
+        }
+
+        /* Cene */
+        .pricing form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .pricing label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .pricing input, .pricing textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .pricing button {
+            background-color: #004080;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .pricing button:hover {
+            background-color: #003366;
+        }
+
+        /* FAQ */
+        .faq .faq-item {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .faq .faq-item h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #004080;
+        }
+
+        .faq .faq-item p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Kontakt */
+        .contact-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .contact form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .contact label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact button {
+            background-color: #004080;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .contact button:hover {
+            background-color: #003366;
+        }
+
+        .map iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #004080;
+            color: #fff;
+            padding: 20px 10%;
+            text-align: center;
+        }
+
+        .footer-content p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .footer-content .social-media a {
+            margin: 0 10px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .footer-content .social-media a:hover {
+            transform: scale(1.2);
+        }
+
+        .footer-content .social-media img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Responsivnost */
+        @media (max-width: 768px) {
+            header nav ul {
+                flex-direction: column;
+                background-color: #004080;
+                position: absolute;
+                top: 70px;
+                right: 10%;
+                width: 200px;
+                display: none;
+            }
+
+            header nav ul.active {
+                display: flex;
+            }
+
+            header nav ul li {
+                margin: 15px 0;
+            }
+
+            .hero-content h2 {
+                font-size: 32px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .units {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Toggle Button za Mobile Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background: #fff;
+            margin-bottom: 4px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <h1>Lock & Store</h1>
+        </div>
+        <nav>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="#home">Početna</a></li>
+                <li><a href="#about">O Nama</a></li>
+                <li><a href="#services">Usluge</a></li>
+                <li><a href="#units">Jedinice</a></li>
+                <li><a href="#pricing">Cene</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Sekcija -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Vaše Sigurno Rešenje za Skladištenje u Nišu</h2>
+            <p>Fleksibilne jedinice za sve vaše potrebe</p>
+            <a href="#contact" class="cta-button">Rezervišite Sada</a>
+        </div>
+    </section>
+
+    <!-- O Nama -->
+    <section id="about">
+        <h2>O Nama</h2>
+        <p>
+            Lock & Store je lider u pružanju sigurnih i pouzdanih skladišnih rešenja u Nišu. Sa našim modernim objektom smeštenim u srcu Niša, nudimo širok spektar skladišnih jedinica prilagođenih vašim specifičnim potrebama. Naš tim posvećen je pružanju vrhunske usluge kako biste imali mirnu i sigurnu brigu o svojim stvarima.
+        </p>
+        <p>
+            <strong>Naša Misija:</strong> Omogućiti sigurno, pristupačno i fleksibilno skladištenje za pojedince i preduzeća u Nišu, sa naglaskom na kvalitetu i korisničko zadovoljstvo.
+        </p>
+        <p>
+            <strong>Naše Vrednosti:</strong>
+            <ul style="list-style: none; padding-left: 0; text-align: left; display: inline-block;">
+                <li>• Pouzdanost</li>
+                <li>• Sigurnost</li>
+                <li>• Fleksibilnost</li>
+                <li>• Profesionalizam</li>
+            </ul>
+        </p>
+    </section>
+
+    <!-- Usluge -->
+    <section id="services" class="services">
+        <h2>Naše Usluge</h2>
+        <div class="service-item">
+            <h3>Sigurno Skladištenje</h3>
+            <p>Video nadzor 24/7, alarmni sistemi i kontrola pristupa za maksimalnu sigurnost vaših stvari.</p>
+        </div>
+        <div class="service-item">
+            <h3>Fleksibilni Najmovi</h3>
+            <p>Kratkoročni i dugoročni najmovi prilagođeni vašim potrebama, bez dugoročnih obaveza.</p>
+        </div>
+        <div class="service-item">
+            <h3>Klimatski Kontrolisani Prostori</h3>
+            <p>Idealno za osetljive predmete sa stabilnom temperaturom i vlažnošću.</p>
+        </div>
+        <div class="service-item">
+            <h3>Dodatne Usluge</h3>
+            <p>Pakovanje i transport, osiguranje skladištenih stvari i parking prostor za korisnike.</p>
+        </div>
+    </section>
+
+    <!-- Jedinice -->
+    <section id="units" class="units">
+        <h2>Naše Jedinice</h2>
+        <div class="unit">
+            <img src="https://images.unsplash.com/photo-1588776814546-3d1d7c2dfe10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjA3fDB8MHxzZWFyY2h8MXx8c2tsaWRhcmV8ZW58MHx8fHwxNjgwMTYzMDY3&ixlib=rb-4.0.3&q=80&w=400" alt="1m² Jedinica">
+            <h3>1m²</h3>
+            <p>Idealno za kutije, ormare ili manje predmete.</p>
+            <button class="cta-button">Rezervišite Sada</button>
+        </div>
+        <div class="unit">
+            <img src="https://images.unsplash.com/photo-1604325746200-cf7c7cbf6478?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjA3fDB8MHxzZWFyY2h8Mnx8c2tsaWRhcmV8ZW58MHx8fHwxNjgwMTYzMDY3&ixlib=rb-4.0.3&q=80&w=400" alt="2m² Jedinica">
+            <h3>2m²</h3>
+            <p>Pogodno za posteljinu, male nameštaje ili opremu.</p>
+            <button class="cta-button">Rezervišite Sada</button>
+        </div>
+        <div class="unit">
+            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjA3fDB8MHxzZWFyY2h8M3x8c2tsaWRhcmV8ZW58MHx8fHwxNjgwMTYzMDY3&ixlib=rb-4.0.3&q=80&w=400" alt="5m² Jedinica">
+            <h3>5m²</h3>
+            <p>Savršeno za veće nameštaje, sportske opreme ili inventar.</p>
+            <button class="cta-button">Rezervišite Sada</button>
+        </div>
+        <div class="unit">
+            <img src="https://images.unsplash.com/photo-1607198512007-16ef2ad61d8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjA3fDB8MHxzZWFyY2h8NHx8c2tsaWRhcmV8ZW58MHx8fHwxNjgwMTYzMDY3&ixlib=rb-4.0.3&q=80&w=400" alt="10m² Jedinica">
+            <h3>10m²</h3>
+            <p>Najveća jedinica za kompletan inventar ili poslovne potrebe.</p>
+            <button class="cta-button">Rezervišite Sada</button>
+        </div>
+    </section>
+
+    <!-- Cene -->
+    <section id="pricing" class="pricing">
+        <h2>Cene</h2>
+        <p>Radimo na finalizaciji naših konkurentnih cena. Molimo vas da nas kontaktirate direktno za specijalne ponude i tačne cene.</p>
+        <form action="#" method="post">
+            <label for="name">Ime:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="phone">Telefon:</label>
+            <input type="tel" id="phone" name="phone" required>
+            
+            <label for="message">Poruka:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            
+            <button type="submit">Pošalji</button>
+        </form>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+        <h2>Često Postavljana Pitanja</h2>
+        <div class="faq-item">
+            <h3>Kako mogu rezervisati skladišnu jedinicu?</h3>
+            <p>Možete rezervisati putem naše web stranice klikom na dugme "Rezervišite Sada" u sekciji Jedinice ili nas kontaktirati direktno putem telefona ili emaila.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Koje su sigurnosne mere koje nudite?</h3>
+            <p>Naš objekat je opremljen video nadzorom 24/7, alarmnim sistemima i kontrolom pristupa kako bismo osigurali sigurnost vaših stvari.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Da li nudite osiguranje za skladištene predmete?</h3>
+            <p>Da, nudimo opciju osiguranja skladištenih stvari uz dodatnu naknadu. Detalje možete saznati kontaktiranjem našeg tima.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Mogu li pristupiti svom skladištu 24 sata dnevno?</h3>
+            <p>Trenutno omogućujemo pristup tokom radnog vremena, a radimo na proširenju pristupa 24/7 za naše korisnike.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Koje metode plaćanja prihvatate?</h3>
+            <p>Prihvatamo gotovinu, kartice i online plaćanje putem naše web stranice.</p>
+        </div>
+    </section>
+
+    <!-- Kontakt -->
+    <section id="contact" class="contact">
+        <h2>Kontaktirajte Nas</h2>
+        <p>Imate pitanja ili želite da rezervišete skladišnu jedinicu? Kontaktirajte nas putem donjih informacija ili popunite obrazac za kontakt.</p>
+        <div class="contact-info">
+            <p><strong>Adresa:</strong> [Vaša Adresa], Niš, Srbija</p>
+            <p><strong>Telefon:</strong> +381 XX XXX XXXX</p>
+            <p><strong>Email:</strong> info@lockstore.rs</p>
+        </div>
+        <form action="#" method="post">
+            <label for="contact-name">Ime:</label>
+            <input type="text" id="contact-name" name="contact-name" required>
+            
+            <label for="contact-email">Email:</label>
+            <input type="email" id="contact-email" name="contact-email" required>
+            
+            <label for="contact-phone">Telefon:</label>
+            <input type="tel" id="contact-phone" name="contact-phone" required>
+            
+            <label for="contact-message">Poruka:</label>
+            <textarea id="contact-message" name="message" rows="4" required></textarea>
+            
+            <button type="submit">Pošalji</button>
+        </form>
+        <!-- Google Maps Iframe -->
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=YOUR_MAP_EMBED_URL" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Lock & Store. Sva prava zadržana.</p>
+            <div class="social-media">
+                <a href="#"><img src="https://via.placeholder.com/24" alt="Facebook"></a>
+                <a href="#"><img src="https://via.placeholder.com/24" alt="Instagram"></a>
+                <a href="#"><img src="https://via.placeholder.com/24" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript za Mobile Menu -->
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
