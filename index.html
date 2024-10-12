@@ -541,25 +541,25 @@
             <img src="./images/one_storage_box.jpg" alt="1m² Jedinica">
             <h3>1m²</h3>
             <p>Idealno za kutije, ormare ili manje predmete.</p>
-            <button class="cta-button">Rezervišite Sada</button>
+            <button class="cta-button" onclick="scrollToContact()">Rezervišite Sada</button>
         </div>
         <div class="unit">
             <img src="./images/two_storage_boxes.jpg" alt="2m² Jedinica">
             <h3>2m²</h3>
             <p>Pogodno za posteljinu, male nameštaje ili opremu.</p>
-            <button class="cta-button">Rezervišite Sada</button>
+            <button class="cta-button" onclick="scrollToContact()">Rezervišite Sada</button>
         </div>
         <div class="unit">
             <img src="./images/storage_boxes.jpg" alt="5m² Jedinica">
             <h3>5m²</h3>
             <p>Savršeno za veće nameštaje, sportske opreme ili inventar.</p>
-            <button class="cta-button">Rezervišite Sada</button>
+            <button class="cta-button" onclick="scrollToContact()">Rezervišite Sada</button>
         </div>
         <div class="unit">
             <img src="./images/large_storage_boxes.jpg" alt="10m² Jedinica">
             <h3>10m²</h3>
             <p>Najveća jedinica za kompletan inventar ili poslovne potrebe.</p>
-            <button class="cta-button">Rezervišite Sada</button>
+            <button class="cta-button" onclick="scrollToContact()">Rezervišite Sada</button>
         </div>
     </section>
 
@@ -660,6 +660,10 @@
         menuToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
         });
+
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
